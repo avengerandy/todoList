@@ -31,7 +31,7 @@ class TodoController extends Controller
 
         $this->todoService->create($data);
 
-        $request->session()->flash('success', 'created succesfully');
+        $request->session()->flash('success', 'created successfully');
         return Redirect::to('/');
     }
 

@@ -43,6 +43,28 @@ class TodoControllerTest extends TestCase
         $this->assertEquals($expectView, $actualView);
     }
 
+    public function test_create_action_method_create_by_request_and_service(): void
+    {
+        $fakeRequestData = ['fakeRequestData'];
+        $mockTodoRequest = $this->mock(TodoRequest::class);
+        $mockTodoRequest->expects()->all()->once()->andReturn($fakeRequestData);
+
+        $mockSession = \Mockery::mock();
+        $mockSession->expects()->flash('success', 'created successfully')->once();
+        $mockTodoRequest->expects()->session()->once()->andReturn($mockSession);
+
+        $mockTodoService = $this->mock(TodoService::class);
+        $mockTodoService->expects()->create($fakeRequestData)->once();
+
+        $expectRedirectResponse = 'fakeRedirectResponse';
+        Redirect::shouldReceive('to')->with('/')->once()->andReturn($expectRedirectResponse);
+
+        $controller = new TodoController($mockTodoService);
+        $actualRedirectResponse = $controller->createAction($mockTodoRequest);
+
+        $this->assertEquals($expectRedirectResponse, $actualRedirectResponse);
+    }
+
     public function test_detail_method_returns_view_with_Todo(): void
     {
         $mockTodo = $this->mock(Todo::class);
@@ -73,6 +95,30 @@ class TodoControllerTest extends TestCase
         $actualView = $controller->edit($mockTodo);
 
         $this->assertEquals($expectView, $actualView);
+    }
+
+    public function test_update_action_method_create_by_request_and_service(): void
+    {
+        $mockTodo = $this->mock(Todo::class);
+
+        $fakeRequestData = ['fakeRequestData'];
+        $mockTodoRequest = $this->mock(TodoRequest::class);
+        $mockTodoRequest->expects()->all()->once()->andReturn($fakeRequestData);
+
+        $mockSession = \Mockery::mock();
+        $mockSession->expects()->flash('success', 'updated successfully')->once();
+        $mockTodoRequest->expects()->session()->once()->andReturn($mockSession);
+
+        $mockTodoService = $this->mock(TodoService::class);
+        $mockTodoService->expects()->update($fakeRequestData, $mockTodo)->once();
+
+        $expectRedirectResponse = 'fakeRedirectResponse';
+        Redirect::shouldReceive('to')->with('/')->once()->andReturn($expectRedirectResponse);
+
+        $controller = new TodoController($mockTodoService);
+        $actualRedirectResponse = $controller->update($mockTodo, $mockTodoRequest);
+
+        $this->assertEquals($expectRedirectResponse, $actualRedirectResponse);
     }
 
     public function test_delete_method_delete_Todo_and_redirect_to_index(): void
