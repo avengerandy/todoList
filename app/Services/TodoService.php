@@ -5,7 +5,7 @@ use App\Models\Todo;
 
 class TodoService
 {
-    private Todo $todo;
+    protected Todo $todo;
 
     public function __construct(Todo $todo)
     {

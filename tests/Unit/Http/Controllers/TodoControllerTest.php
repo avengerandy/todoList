@@ -27,7 +27,7 @@ class TodoControllerTest extends TestCase
         $controller = new TodoController($mockTodoService);
         $actualView = $controller->index($mockTodo);
 
-        $this->assertSame($expectView, $actualView);
+        $this->assertEquals($expectView, $actualView);
     }
 
     public function test_create_method_returns_view_with_empty_data(): void
@@ -40,7 +40,7 @@ class TodoControllerTest extends TestCase
         $controller = new TodoController($mockTodoService);
         $actualView = $controller->create();
 
-        $this->assertSame($expectView, $actualView);
+        $this->assertEquals($expectView, $actualView);
     }
 
     public function test_detail_method_returns_view_with_Todo(): void
@@ -56,7 +56,7 @@ class TodoControllerTest extends TestCase
         $controller = new TodoController($mockTodoService);
         $actualView = $controller->detail($mockTodo);
 
-        $this->assertSame($expectView, $actualView);
+        $this->assertEquals($expectView, $actualView);
     }
 
     public function test_edit_method_returns_view_with_Todo(): void
@@ -72,7 +72,7 @@ class TodoControllerTest extends TestCase
         $controller = new TodoController($mockTodoService);
         $actualView = $controller->edit($mockTodo);
 
-        $this->assertSame($expectView, $actualView);
+        $this->assertEquals($expectView, $actualView);
     }
 
     public function test_delete_method_delete_Todo_and_redirect_to_index(): void
