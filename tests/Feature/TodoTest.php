@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Todo;
 use Database\Seeders\TodoSeeder;
@@ -11,6 +12,7 @@ use Database\Seeders\TodoSeeder;
 class TodoTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     public function test_index_return_view_with_empty_list(): void
     {
@@ -44,7 +46,7 @@ class TodoTest extends TestCase
 
     public function test_create_action_validation_error_todo_and_redirect_to_back(): void
     {
-        $postData = ['description' => 'updatedDescription'];
+        $postData = ['description' => $this->faker->sentence()];
         $response = $this->post('/createAction', $postData);
 
         $response->assertStatus(302);
@@ -68,8 +70,8 @@ class TodoTest extends TestCase
     public function test_create_action_todo_and_redirect_to_index(): void
     {
         $postData = [
-            'title' => 'updatedTitle',
-            'description' => 'updatedDescription',
+            'title' => $this->faker->word(),
+            'description' => $this->faker->sentence()
         ];
         $response = $this->post('/createAction', $postData);
 
@@ -120,7 +122,7 @@ class TodoTest extends TestCase
         $todoId = 1;
         $this->seed(TodoSeeder::class);
 
-        $postData = ['description' => 'updatedDescription'];
+        $postData = ['description' => $this->faker->sentence()];
         $response = $this->post("/update/{$todoId}", $postData);
 
         $response->assertStatus(302);
@@ -147,8 +149,8 @@ class TodoTest extends TestCase
 
         $this->seed(TodoSeeder::class);
         $postData = [
-            'title' => 'updatedTitle',
-            'description' => 'updatedDescription',
+            'title' => $this->faker->word(),
+            'description' => $this->faker->sentence()
         ];
         $response = $this->post("/update/{$todoId}", $postData);
 
